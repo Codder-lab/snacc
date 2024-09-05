@@ -18,21 +18,21 @@ const placeOrder = async (req, res) => {
         await userModel.findByIdAndUpdate(req.body.userId, {cartData:{}});
         const line_items = req.body.items.map((item) => ({
             price_data: {
-                currency: "usd",
+                currency: "inr",
                 product_data: {
                     name: item.name
                 },
-                unit_amount: item.price * 100
+                unit_amount: item.price * 100 * 80
             },
             quantity: item.quantity
         }))
         line_items.push({
             price_data: {
-                currency: "usd",
+                currency: "inr",
                 product_data: {
                     name: "Delivery Fee"
                 },
-                unit_amount: 2 * 100
+                unit_amount: 2 * 100 * 80
             },
             quantity: 1
         })
@@ -49,4 +49,32 @@ const placeOrder = async (req, res) => {
     }
 }
 
-export {placeOrder};
+const verifyOrder = async (req, res) => {
+    const {orderId, success} = req.body;
+    try {
+        if (success === "true") {
+            await orderModel.findByIdAndUpdate(orderId, {payment: true});
+            res.json({success: true, message: "Payment Done"});
+        }
+        else {
+            await orderModel.findByIdAndDelete(orderId);
+            res.json({success: false, message: "Payment Failed"});
+        }
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: "Error"});
+    }
+}
+
+// User Orders for frontend
+const userOrders = async (req, res) => {
+    try {
+        const orders = await orderModel.find({userId: req.body.userId});
+        res.json({success: true, data: orders});
+    } catch (error) {
+        console.log(error);
+        res.json({success: false, message: "Error"});
+    }
+}
+
+export {placeOrder, verifyOrder, userOrders};
