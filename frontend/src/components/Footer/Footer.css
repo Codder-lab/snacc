@@ -58,3 +58,17 @@
         text-align: center;
     }
 }
+
+@media (max-width: 900px) {
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 1024px) {
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+    }
+}
