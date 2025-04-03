@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Add.css";
 import { assets } from "../../assets/admin_assets/assets";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const Add = ({url}) => {
 
@@ -38,14 +38,15 @@ const Add = ({url}) => {
         category: "Salad",
       });
       setImage(false);
-      toast.success(response.data.message);
+      toast.success("Food Data added successfully!!");
     } else {
-        toast.error(response.data.message);
+        toast.error("Error in adding Food Data!!");
     }
   };
 
   return (
     <div className="add">
+    <ToastContainer position="top-right" autoClose="3000" />
       <form className="flex-col" onSubmit={onSubmitHandler}>
         <div className="add-image-upload flex-col">
           <p>Upload Image</p>

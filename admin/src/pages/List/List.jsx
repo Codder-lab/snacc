@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './List.css'
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const List = ({url}) => {
   
@@ -11,6 +11,7 @@ const List = ({url}) => {
     const response = await axios.get(`${url}/api/food/list`);
     if (response.data.success) {
       setList(response.data.data)
+      toast.success("Food List fetched successfully!!");
     }
     else {
       toast.error("Error");
@@ -21,10 +22,10 @@ const List = ({url}) => {
     const response = await axios.post(`${url}/api/food/remove`, {id:foodId});
     await fetchList();
     if (response.data.success) {
-      toast.success(response.data.message)      
+      toast.success("Food removed successfully!!");
     }
     else {
-      toast.error("Error");
+      toast.error("Error in removing data!!");
     }
   }
 
@@ -34,6 +35,7 @@ const List = ({url}) => {
 
   return (
     <div className='list add flex-col'>
+      <ToastContainer position='top-right' autoClose='3000' />
       <p>All Foods List</p>
       <div className="list-table">
         <div className="list-table-format title">

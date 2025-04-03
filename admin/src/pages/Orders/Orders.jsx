@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Orders.css'
 import axios from 'axios'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import { assets } from '../../assets/admin_assets/assets'
 
 const Orders = ({url}) => {
@@ -11,9 +11,10 @@ const Orders = ({url}) => {
     if (response.data.success) {
       setOrders(response.data.data);
       console.log(response.data.data);
+      toast.success("Orders fetched successfully!!");
     }
     else {
-      toast.error("Error");
+      toast.error("Error fetching orders!!");
     }
   }
 
@@ -33,6 +34,7 @@ const Orders = ({url}) => {
 
   return (
     <div className='order add'>
+      <ToastContainer position='top-right' autoClose='3000' />
         <h3>Order Page</h3>
         <div className='order-list'>
           {orders.map((order, index) => (

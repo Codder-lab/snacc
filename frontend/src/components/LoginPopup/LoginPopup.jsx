@@ -3,6 +3,8 @@ import './LoginPopup.css'
 import { assets } from '../../assets/frontend_assets/assets';
 import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/ReactToastify.css'
 
 const LoginPopup = ({setShowLogin}) => {
     const {url, setToken} = useContext(StoreContext);
@@ -10,7 +12,7 @@ const LoginPopup = ({setShowLogin}) => {
     const [data, setData] = useState({
         name: "",
         email: "",
-        password: ""
+        password: "" 
     });
     const onChangeHandler = (event) => {
         const name = event.target.name;
@@ -27,19 +29,27 @@ const LoginPopup = ({setShowLogin}) => {
         else {
             newUrl += "/api/user/register"
         }
-        const response = await axios.post(newUrl, data);
-        if (response.data.success) {
-            setToken(response.data.token);
-            localStorage.setItem("token", response.data.token);
-            setShowLogin(false);
-        }
-        else {
-            alert(response.data.message);
-        }
+        try {
+            const response = await axios.post(newUrl, data);
+            if (response.data.success) {
+                if (setToken) {
+                    setToken(response.data.token);
+                    localStorage.setItem("token", response.data.token);
+                }
+                toast.success(`${currState} Successful!!`);
+                setTimeout(() => setShowLogin(false), 1000);
+            }
+            else {
+                toast.error(response.data.message);
+            } 
+        }   catch (error) {
+                toast.error("Something went wrong. Please try again!!");
+            }
     }
 
   return (
     <div className='login-popup'>
+        {/* <ToastContainer position='top-right' autoClose={3000} /> */}
         <form onSubmit={onLogin} className='login-popup-container'>
             <div className="login-popup-title">
                 <h2>{currState}</h2>

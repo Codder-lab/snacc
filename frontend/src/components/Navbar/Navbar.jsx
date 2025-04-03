@@ -3,6 +3,8 @@ import "./Navbar.css";
 import { assets } from "../../assets/frontend_assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/ReactToastify.css";
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
@@ -14,11 +16,15 @@ const Navbar = ({ setShowLogin }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setToken("");
+    toast.success("User Logout Successful!!", {
+      autoClose: true,
+    });
     navigate("/");
   }
 
   return (
     <div className="navbar">
+      {/* <ToastContainer position="top-right" autoClose='3000' /> */}
       <Link to="/">
         <img src={assets.logo} alt="logo" className="logo" />
       </Link>
