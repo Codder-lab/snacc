@@ -8,6 +8,7 @@ const StoreContextProvider = (props) => {
   const url = 'https://snacc-backend.onrender.com';
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
@@ -59,11 +60,13 @@ const StoreContextProvider = (props) => {
 
   useEffect(() => {
     async function loadData() {
+      setLoading(true);
       await fetchFoodList();
       if (localStorage.getItem("token")) {
         setToken(localStorage.getItem("token"));
         await loadCartData(localStorage.getItem("token"));
       }
+      setLoading(false);
     }
     loadData();
   }, []);
@@ -77,7 +80,8 @@ const StoreContextProvider = (props) => {
     getTotalCartAmount,
     url,
     token,
-    setToken
+    setToken,
+    loading
   };
 
   return (

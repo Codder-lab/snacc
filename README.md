@@ -96,5 +96,5 @@ The app will run on http://localhost:5174 (frontend), http://localhost:4000 (bac
 
 For any inquiries or suggestions, please reach out to:
 - **Name:** Suyash Potdar
-- **Email:** <suyashpotda03@gmail.com>
+- **Email:** <suyashpotdar03@gmail.com>
 - **Github:** <https://github.com/Codder-lab>
